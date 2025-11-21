@@ -15,8 +15,14 @@ A new Flutter plugin project.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'BDAlphaPlayer', '= 1.2.2'
   s.platform = :ios, '9.0'
+
+  # BDAlphaPlayer vendored source
+  s.resource_bundles = {
+    'BDAlphaPlayer' => ['Classes/BDAlphaPlayer/**/*.metal']
+  }
+  s.libraries = 'c++'
+  s.frameworks = 'UIKit', 'CoreVideo'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
