@@ -3,11 +3,10 @@ version '1.0-SNAPSHOT'
 
 buildscript {
     ext.kotlin_version = '1.6.0'
-    repositories {
-        maven {
-            url 'https://jitpack.io' }
+    repositories { 
         google()
         mavenCentral()
+        // mavenLocal() // 添加对本地 Maven 仓库的支持
     }
 
     dependencies {
@@ -19,8 +18,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
+        mavenCentral() 
     }
 }
 
@@ -30,6 +28,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
+    namespace 'com.example.flutter_alpha_player_plugin'
+
     compileSdkVersion 31
 
     compileOptions {
@@ -51,5 +51,8 @@ android {
 }
 
 dependencies{
-     implementation 'com.github.bytedance:AlphaPlayer:1.0.6'
+//    implementation project(path: ':alpha_player')
+    implementation "com.github.bytedance:AlphaPlayer:1.2.1"
+    // implementation fileTree(dir: 'libs', include: ['*.aar'])
+
 }
