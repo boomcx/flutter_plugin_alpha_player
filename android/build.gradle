@@ -4,11 +4,6 @@ version '1.0-SNAPSHOT'
 buildscript {
     ext.kotlin_version = '1.6.0'
     repositories { 
-        // 替换为阿里云镜像（替代 google() 和 mavenCentral()）
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/jcenter' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        // 添加官方仓库作为备用
         google()
         mavenCentral()
     }
@@ -21,10 +16,6 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/jcenter' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        // 添加官方仓库作为备用
         google()
         mavenCentral()
     }
