@@ -13,6 +13,8 @@ import com.example.flutter_alpha_player_plugin.VideoGiftView
 import com.ss.ugc.android.alpha_player.IPlayerAction
 import com.ss.ugc.android.alpha_player.model.ScaleType
 import com.ss.ugc.android.alpha_player.IMonitor
+import java.io.File
+import java.io.FileOutputStream
 
 ///原生界面需要实现PlatformView
 internal class NativeAlphaPlayer(
@@ -76,6 +78,45 @@ internal class NativeAlphaPlayer(
                 val landscapePath = call.argument<Int>("landscapePath")?:8
                 alphaPlayer.startVideoGift(path ,name,portraitPath,landscapePath,isLooper)
                 result.success(0)
+            }
+            //播放Asset视频
+            "playAssetVideo"->{
+                val path  = call.argument<String>("path")
+                val name = call.argument<String>("name")
+                val isLooper = call.argument<Boolean>("looping")
+                val portraitPath = call.argument<Int>("portraitPath")?:1
+                val landscapePath = call.argument<Int>("landscapePath")?:8
+                
+                if (mContext != null && path != null && name != null) {
+                    val assetPath = "$path/$name"
+                    val destDir = File(mContext.cacheDir, path)
+                    if (!destDir.exists()) {
+                        destDir.mkdirs()
+                    }
+                    val destFile = File(destDir, name)
+                    
+                    // Always copy to ensure we have the file (or check if exists and size matches?)
+                    // For simplicity, copy if not exists.
+                    if (!destFile.exists()) {
+                        try {
+                            // Flutter assets are stored under "flutter_assets/" in the APK assets
+                            val inputStream = mContext.assets.open("flutter_assets/$assetPath")
+                            val outputStream = FileOutputStream(destFile)
+                            inputStream.copyTo(outputStream)
+                            inputStream.close()
+                            outputStream.close()
+                        } catch (e: Exception) {
+                            Log.e("NativeAlphaPlayer", "Failed to copy asset: $assetPath", e)
+                            result.error("ASSET_COPY_ERROR", "Failed to copy asset: $assetPath", e.message)
+                            return
+                        }
+                    }
+                    
+                    alphaPlayer.startVideoGift(destDir.absolutePath ,name,portraitPath,landscapePath,isLooper)
+                    result.success(0)
+                } else {
+                    result.error("INVALID_ARGUMENTS", "Context, path or name is null", null)
+                }
             }
             //同步视图
             "attachView"->{

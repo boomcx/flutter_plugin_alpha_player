@@ -81,12 +81,12 @@ class _MyAppState extends State<MyApp> {
                     // ),
                     CupertinoButton(
                       color: Colors.purple,
-                      child: const Text("播放assets alpha_right mp4"),
+                      child: const Text("播放assets alpha right mp4"),
                       onPressed: () {
                         if (Platform.isAndroid) {
                           /// 安卓路径读取方式
-                          AlphaPlayerController.playVideo(
-                              "/assets/", "right.mp4");
+                          AlphaPlayerController.playAssetVideo(
+                              "assets", "right.mp4");
                         } else if (Platform.isIOS) {
                           /// iOS 路径读取方式
                           /// iOS 由于基于字节播放器的二次封装，内部需要解析config.json 文件来读取资源，所以，视频同级目录内都要有一个对应的config.json文件

@@ -8,8 +8,9 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'https://maven.aliyun.com/repository/public' }
-        // 保留 JitPack（用于 AlphaPlayer 依赖）
-        maven { url 'https://jitpack.io' }
+        // 添加官方仓库作为备用
+        google()
+        mavenCentral()
     }
 
     dependencies {
@@ -23,7 +24,9 @@ allprojects {
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'https://maven.aliyun.com/repository/public' }
-        maven { url 'https://jitpack.io' }
+        // 添加官方仓库作为备用
+        google()
+        mavenCentral()
     }
 }
 
@@ -55,6 +58,8 @@ android {
     }
 }
 
-dependencies{
-    implementation "com.github.bytedance:AlphaPlayer:1.2.1"
+dependencies {
+    // AlphaPlayer vendored source dependencies
+    def lifecycle_version = "2.2.0"
+    implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
 }
